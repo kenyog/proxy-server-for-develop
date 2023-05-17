@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  noauth:
+    image: mysquid
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 8001:8888
+      - 8011:8889
+    volumes:
+      - ./confs-noauth:/etc/squid
+    #command: squid
+    #command: /bin/sh -c "while sleep 1000; do :; done"
+    command: /usr/sbin/squid --foreground
+  basic:
+    image: mysquid
+    ports:
+      - 8002:8888
+      - 8012:8889
+    volumes:
+      - ./confs-basic:/etc/squid
+    command: /usr/sbin/squid --foreground
+  digest:
+    image: mysquid
+    ports:
+      - 8003:8888
+      - 8013:8889
+    volumes:
+      - ./confs-digest:/etc/squid
+    command: /usr/sbin/squid --foreground
+
